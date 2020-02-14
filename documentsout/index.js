@@ -38,7 +38,8 @@ var app = new Vue({
         receiverName: '',
         receiverSurname: '',
         receiverDept: '1',
-        organizations: []
+        organizations: [],
+        errors: [],
     },
     methods: {
         addMainAttachment(event) {
@@ -95,17 +96,71 @@ var app = new Vue({
 
         requestSendDoc() {
 
-            let formData = new FormData();
-            for (i = 0; i < this.otherAttachment.length; i++) {
-                formData.append("file", this.otherAttachment[i]);
+            this.errors = [];
+            if (this.bookNo == "") {
+                this.errors.push("ระบุเลขที่หนังสือ")
+            }
+            if (this.bookType == "") {
+                this.errors.push("ระบุประเภทหนังสือ")
+            }
+            if (this.bookDate == "") {
+                this.errors.push("ระบุวันที่หนังสือ")
+            }
+            if (this.bookSubject == "") {
+                this.errors.push("ระบุเรื่องหนังสือ")
+            }
+            if (this.bookSpeed == "") {
+                this.errors.push("ระบุชั้นความเร็ว")
+            }
+            if (this.bookSecret == "") {
+                this.errors.push("ระบุชั้นความลับ")
+            }
+            if (this.bookDescription == "") {
+                this.errors.push("ระบุรายละเอียดหนังสือ")
+            }
+            if (this.senderPostion == "") {
+                this.errors.push("ระบุตำแหน่งผู้ส่ง")
+            }
+            if (this.senderName == "") {
+                this.errors.push("ระบุชื่อผู้ส่ง")
+            }
+            if (this.senderSurname == "") {
+                this.errors.push("ระบุนามสกุลผู้ส่ง")
+            }
+            if (this.senderDept == "") {
+                this.errors.push("ระบุหน่วยงานผู้ส่ง")
+            }
+            if (this.receiverPostion == "") {
+                this.errors.push("ระบุตำแหน่งผู้รับ")
+            }
+            if (this.receiverName == "") {
+                this.errors.push("ระบุชื่อผู้รับ")
+            }
+            if (this.receiverSurname == "") {
+                this.errors.push("ระบุนามสกุลผู้รับ")
+            }
+            if (this.receiverDept == "") {
+                this.errors.push("ระบุหน่วยงานผู้รับ")
             }
 
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost:51618/service/AddDocument",
-                data: {
-                    doc: {
-                        "No": this.bookno,
+
+            if (this.errors.length == 0) {
+
+                //var confirm = confirm("ต้องการบันทึกข้อมูลใช่หรือไม่");
+                if (confirm("ต้องการบันทึกข้อมูลใช่หรือไม่")) {
+
+
+
+                    let formData = new FormData();
+                    for (i = 0; i < this.mainAttachment.length; i++) {
+                        formData.append("mainFile" + i, this.mainAttachment[i]);
+                    }
+                    for (i = 0; i < this.otherAttachment.length; i++) {
+                        formData.append("otherFile" + i, this.otherAttachment[i]);
+                    }
+
+                    var doc = {
+                        No: this.bookNo,
                         "Type": this.bookType,
                         "Date": this.bookDate,
                         "Subject": this.bookSubject,
@@ -119,38 +174,75 @@ var app = new Vue({
                         "SenderDept": this.senderDept,
                         "ReceiverPosition": this.receiverPostion,
                         "ReceiverName": this.receiverName,
-                        "ReceiverSurname": this.receiverSurnamed,
+                        "ReceiverSurname": this.receiverSurname,
                         "ReceiverDept": this.receiverDept,
                         "Status": "บันทึกรอส่ง",
-                        "From": "scp1"
+                        "From": "scp1",
+                        DocumentAttachment: [],
+                        DocumentReference: []
                     }
-                },
-                // data: formData,
-                dataType: 'json',
-                // contentType: false,
-                //processData: false,
-                success: function (response) {
 
-                    formData.append("ID", response.ResponseObject.Id)
+                    for (var i = 0; i < this.otherAttachment.length; i++) {
+                        var attachmentObj = {
+                            AttachmentName: this.otherAttachment[i].name
+                        }
+                        doc.DocumentAttachment.push(attachmentObj)
+                    }
+
+                    for (var i = 0; i < this.refBooks.length; i++) {
+                        var refObj = {
+                            ReferenceBookNo: this.refBooks[i].refBookNo,
+                            ReferenceBookDate: this.refBooks[i].refBookDate,
+                            ReferenceBookSubject: this.refBooks[i].refBookSubject
+                        }
+                        doc.DocumentReference.push(refObj)
+                    }
 
                     $.ajax({
                         type: 'POST',
-                        url: "http://localhost:51618/service/AddDocument2",
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (resultData) {
-                            console.log(resultData)
-                        }
-                    })
+                        url: "http://localhost:51618/service/AddDocument",
+                        data: {
+                            doc
+                        },
+                        dataType: 'json',
+                        success: function (response) {
 
-                },
-                error: function (xhr, textStatus, error) {
-                    console.log(xhr.statusText);
-                    console.log(textStatus);
-                    console.log(error);
+                            if (response.Status) {
+                                formData.append("ID", response.ResponseObject.Id)
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "http://localhost:51618/service/AddDocument2",
+                                    data: formData,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (resultData) {
+                                        if (resultData.Status) {
+                                            alert("บันทึกข้อมูลเรียบร้อย")
+                                        }
+                                        else {
+                                            alert("อัพโหลดไฟล์ไม่ผ่าน กรุณาอัพโหลดไฟล์ใหม่")
+                                        }
+                                    }
+                                })
+                            }
+                            else {
+                                alert("อัพโหลดไฟล์ไม่ผ่าน กรุณาอัพโหลดไฟล์ใหม่")
+                            }
+
+
+                        },
+                        error: function (xhr, textStatus, error) {
+                            console.log(xhr.statusText);
+                            console.log(textStatus);
+                            console.log(error);
+                        }
+                    });
                 }
-            });
+            }
+            else {
+                window.scrollTo(0, 0);
+            }
         }
 
     }, created() {
