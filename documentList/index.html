@@ -19,28 +19,18 @@
     <link rel="stylesheet" href="/mil-doc/css/app.css" />
     <link rel="stylesheet" href="/mil-doc/css/core/menu/menu-types/vertical-menu.css" />
     <link rel="stylesheet" type="text/css" href="/mil-doc/fonts/simple-line-icons/style.min.css">
-
-    <!-- <link rel="stylesheet" type="text/css" href="/mil-doc/vendors/css/extensions/sweetalert.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/vendors/css/extensions/unslider.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/vendors/css/weather-icons/climacons.min.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/fonts/meteocons/style.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/vendors/css/charts/morris.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/css/core/colors/palette-gradient.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/css/core/colors/palette-gradient.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/css/pages/timeline.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/vendors/css/forms/selects/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="/mil-doc/css/plugins/forms/wizard.css"> -->
-    <!-- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
 
     <style>
         [v-cloak] {
             display: none;
         }
     </style>
-
 </head>
 
 <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
@@ -272,6 +262,7 @@
         </div>
     </nav>
 
+    <!--////////////////////////////////////////////// Content //////////////////////////////////////////////////-->
     <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -295,9 +286,9 @@
 
 
     <!-- ////////////////////////////////////////////////////////////////////////////-->
-    <div class="app-content content" id="app" v-cloak>
+    <div class="app-content content" id="app">
         <div class='content-wrapper'>
-            <div class='content-body'>
+            <div class='content-body' v-cloak>
                 <!-- Content -->
 
 
@@ -316,252 +307,49 @@
                 <section id='verify_section' class='card' style='margin-bottom: 0.5rem;'>
                     <div class='card-header'>
                         <legend>สร้างเอกสารใหม่</legend>
-                        <p v-if="errors.length">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors" style="color: red;">{{ error }}</li>
-                            </ul>
-                        </p>
+
                         <div class='heading-elements'>
                         </div>
                     </div>
                     <div class='card-content'>
                         <div class='card-body'>
-                            <div class='card-text' class="form-inline">
-                                <div class='row'>
-                                    <!-- <p v-if="errors.length > 0">
-                                        <b>Please correct the following error(s):</b>
-                                        <ul>
-                                            <li v-for="error in errors" style="color: red;">{{ error }}</li>
-                                        </ul>
-                                    </p> -->
-                                    <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
-                                        <div class="row">
-                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
-                                                <h3 style="border-bottom:1px solid #BABFC7;">หนังสือ / Document</h3>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                        <div class="row">
-
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>เลขที่หนังสือ</label>
-                                                <input type='text' v-model='bookNo' class='form-control'>
-                                            </div>
-
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>ลงวันที่</label>
-                                                <input type='date' min="2001-01-01" class='form-control'
-                                                    v-model="bookDate">
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>เรื่อง</label>
-                                                <input type='text' name='DocOutNo' class='form-control'
-                                                    v-model="bookSubject">
-                                            </div>
-
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>รายละเอียด</label>
-                                                <textarea class='form-control' v-model="bookDescription"></textarea>
-                                            </div>
-
-                                            <hr>
-                                            <br>
-                                            <br>
-                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-5'>
-                                                <h3 style="border-bottom:1px solid #BABFC7;">ผู้ส่งหนังสือ / Sender</h3>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>ตำแหน่ง</label>
-                                                <input type='text' class='form-control' v-model='senderPostion'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>ชื่อ</label>
-                                                <input type='text' class='form-control' v-model='senderName'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>นามสกุล</label>
-                                                <input type='text' class='form-control' v-model='senderSurname'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>หน่วยงานผู้ส่ง</label>
-                                                <select class='form-control' name='SpeedID' v-model='senderDept'>
-                                                    <option value='1'>ปกติ</option>
-                                                    <option value='2'>ด่วน</option>
-                                                    <option value='3'>ด่วนมาก</option>
-                                                    <option value='4'>ด่วนที่สุด</option>
-                                                </select>
-                                            </div>
-
-
-                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-5'>
-                                                <h3 style="border-bottom:1px solid #BABFC7;">ผู้รับหนังสือ / Receiver
-                                                </h3>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>ตำแหน่ง</label>
-                                                <input type='text' class='form-control' v-model='receiverPostion'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>ชื่อ</label>
-                                                <input type='text' class='form-control' v-model='receiverName'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>นามสกุล</label>
-                                                <input type='text' class='form-control' v-model='receiverSurname'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
-                                                <label>หน่วยงานผู้ส่ง</label>
-                                                <select class='form-control' v-model='receiverDept'>
-                                                    <option v-for="organization in organizations"
-                                                        :value="organization.URL">
-                                                        {{ organization.Name }}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class='col-md-6 col-lg-6  col-sm-12 mt-1'>
-                                        <div class="row">
-                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
-                                                <label>ประเภท</label>
-                                                <input type='text' v-model='bookType' value='' class='form-control'>
-                                            </div>
-                                            <div class='col-md-12 col-lg-12 col-sm-12 mt-1'>
-                                                <label>ชั้นความเร็ว</label>
-                                                <select class='form-control' v-model="bookSpeed">
-                                                    <option value='1'>ปกติ</option>
-                                                    <option value='2'>ด่วน</option>
-                                                    <option value='3'>ด่วนมาก</option>
-                                                    <option value='4'>ด่วนที่สุด</option>
-                                                </select>
-                                            </div>
-                                            <div class='col-md-12 col-lg-12 col-sm-12 mt-1'>
-                                                <label>ชั้นความลับ</label>
-                                                <select class='form-control' v-model="bookSecret">
-                                                    <option value='1'>ปกติ</option>
-                                                    <option value='2'>ลับ</option>
-                                                    <option value='3'>ลับมาก</option>
-                                                    <option value='4'>ลับมากที่สุด</option>
-                                                </select>
-                                            </div>
-                                            <div class='col-md-12 col-lg-12 col-sm-12 mt-3'>
-                                                <label>หนังสืออ้างอิง/Reference Correspondence &nbsp;</label>
-                                                <button type=" button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#refModal">
-                                                    <i class="ft-file-plus"></i>
-                                                </button>
-
-                                                <div class="col-md-12" v-for="(item, index) in refBooks">
-                                                    <p>
-                                                        <p>
-                                                            <button class="btn btn-danger"
-                                                                v-on:click=deleteRefBook(index)>ลบ</button>
-                                                            <b>เลขที่หนังสือ</b>: {{  item.refBookNo }}
-                                                            <b>ลงวันที่</b>: {{  item.refBookDate }}
-                                                            <b>เรื่อง</b>: {{  item.refBookSubject }}
-                                                        </p>
-
-
-                                                    </p>
-
-                                                </div>
-                                            </div>
-                                            <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
-                                                <label>เอกสารหลัก / Main Attachment</label>
-                                                <input type="file" v-on:change="addMainAttachment">
-                                                <div class="col-md-12" v-for="(main, index) in mainAttachment">
-                                                    <p>
-                                                        <button class="btn btn-danger"
-                                                            v-on:click=deleteMainAttachment(index)>ลบ</button>
-                                                        {{ main.name === null ?  main.AttachmentName : main.name}}
-                                                    </p>
-
-                                                </div>
-
-                                            </div>
-                                            <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
-                                                <label>เอกสารแนบ / Other Attachment</label>
-                                                <input type="file" @change="addOtherAttachment">
-                                                <div class="col-md-12" v-for="(other, index) in otherAttachment">
-                                                    <p>
-                                                        <button class="btn btn-danger"
-                                                            v-on:click=deleteOtherAttachment(index)>ลบ</button>
-                                                        {{ other.name }}
-                                                    </p>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-
-                                    <div class='col-12 text-center pt-1' v-if="mode !== 'edit'">
-                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDoc">
-                                            <i class='fa fa-save'></i>&nbsp;บันทึก
-                                        </button>
-
-                                    </div>
-                                    <div class='col-12 text-center pt-1' v-if="mode === 'edit'">
-                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDocToEcms">
-                                            <i class='fa fa-save'></i>&nbsp;ส่งหนังสือ
-                                        </button>
-                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDoc">
-                                            <i class='fa fa-save'></i>&nbsp;บันทึกแก้ไข
-                                        </button>
-                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDoc">
-                                            <i class='fa fa-save'></i>&nbsp;ลบหนังสือ
-                                        </button>
-                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDoc">
-                                            <i class='fa fa-save'></i>&nbsp;ย้อนกลับ
-                                        </button>
-                                    </div>
+                            <div class="row">
+                                <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
+                                    <table id="bookTable" class="display">
+                                        <thead>
+                                            <tr>
+                                                <th>จัดการ</th>
+                                                <th>เลขที่</th>
+                                                <th>วันที่</th>
+                                                <th>เรื่อง</th>
+                                                <th>ผู้รับ</th>
+                                                <th>สถานะ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for=" book in listBook">
+                                                <td><button class="btn btn-primary btn-block"
+                                                        v-if="book.Status === 'บันทึกรอส่ง'" 
+                                                        v-on:click="manageBook(book.Id)">จัดการหนังสือ</button></td>
+                                                <td>{{book.No}}</td>
+                                                <td>{{book.Date}}</td>
+                                                <td>{{book.Subject}}</td>
+                                                <td>{{book.Receive}}</td>
+                                                <td>{{book.Status}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+
 
                         </div>
                     </div>
                 </section>
             </div>
         </div>
-        <div class="modal" tabindex="-1" role="dialog" id="refModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header" style="border-bottom: 0px;">
-                        <h5 class="modal-title">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            v-on:click="resetReference">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
-                                <label>เลขที่หนังสืออ้างอิง</label>
-                                <input type='text' class='form-control' v-model="refBookNo">
-                            </div>
-                            <div class='col-md-12 col-lg-12 col-sm-12 mt-1'>
-                                <label>ลงวันที่หนังสืออ้างอิง</label>
-                                <input type='date' class='form-control' v-model="refBookDate">
-                            </div>
-                            <div class='col-md-12 col-lg-12 col-sm-12 mt-1'>
-                                <label>เรื่องหนังสืออ้างอิง</label>
-                                <input type='text' class='form-control' v-model="refBookSubject">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer" style="border-top: 0px;">
-                        <button type="button" class="btn btn-primary" v-on:click=addReference>เพิ่ม</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            v-on:click=resetReference>ปิด</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 
 
@@ -571,7 +359,9 @@
     <script src="/mil-doc/vendors/js/vendors.min.js"></script>
     <script src="/mil-doc/js/core/app-menu.js"></script>
     <script src="/mil-doc/js/core/app.js"></script>
-    <!-- <script src="/mil-doc/vendors/js/forms/validation/jquery.validate.min.js"></script> -->
+    <script src="/mil-doc/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
     <script src="index.js"></script>
     <script>
 

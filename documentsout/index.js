@@ -21,7 +21,7 @@ var app = new Vue({
         bookType: '',
         bookDate: formatDate(n),
         bookSubject: '',
-        bookSpeed: 2,
+        bookSpeed: 1,
         bookSecret: 1,
         bookDescription: '',
         refBookNo: '',
@@ -30,6 +30,7 @@ var app = new Vue({
         refBooks: [],
         mainAttachment: [],
         otherAttachment: [],
+        otherAttachmentName: [],
         senderPostion: '',
         senderName: '',
         senderSurname: '',
@@ -40,6 +41,7 @@ var app = new Vue({
         receiverDept: '1',
         organizations: [],
         errors: [],
+        mode: null
     },
     methods: {
         addMainAttachment(event) {
@@ -149,8 +151,6 @@ var app = new Vue({
                 //var confirm = confirm("ต้องการบันทึกข้อมูลใช่หรือไม่");
                 if (confirm("ต้องการบันทึกข้อมูลใช่หรือไม่")) {
 
-
-
                     let formData = new FormData();
                     for (i = 0; i < this.mainAttachment.length; i++) {
                         formData.append("mainFile" + i, this.mainAttachment[i]);
@@ -198,6 +198,8 @@ var app = new Vue({
                         doc.DocumentReference.push(refObj)
                     }
 
+
+
                     $.ajax({
                         type: 'POST',
                         url: "http://localhost:51618/service/AddDocument",
@@ -219,6 +221,7 @@ var app = new Vue({
                                     success: function (resultData) {
                                         if (resultData.Status) {
                                             alert("บันทึกข้อมูลเรียบร้อย")
+                                            window.location.href = "../documentlist/index.html"
                                         }
                                         else {
                                             alert("อัพโหลดไฟล์ไม่ผ่าน กรุณาอัพโหลดไฟล์ใหม่")
@@ -243,15 +246,98 @@ var app = new Vue({
             else {
                 window.scrollTo(0, 0);
             }
+        },
+
+        setDocumentData(obj) {
+
+            this.bookNo = obj.No
+            this.bookType = obj.Type
+            this.bookDate = obj.Date
+            this.bookSubject = obj.Subject
+            this.bookSpeed = obj.Speed
+            this.bookDescription = obj.Secret
+            this.mainAttachment = [{ name: obj.MainAttachmentName }]
+            this.senderPostion = obj.SenderPosition
+            this.senderName = obj.SenderName
+            this.senderSurname = obj.SenderSurname
+            this.senderDept = obj.SenderDept
+            this.receiverPostion = obj.ReceiverPostion
+            this.receiverName = obj.ReceiverName
+            this.receiverSurname = obj.ReceiverSurname
+            this.receiverDept = obj.ReceiverDept
+
+            for (var i = 0; i < obj.DocumentAttachment.length; i++) {
+                var att =  obj.DocumentAttachment[i]
+                var file = {
+                    name: att.AttachmentName,
+                }
+                this.otherAttachment.push(file)
+            }
+
+            for (var i = 0; i < obj.DocumentReference.length; i++) {
+                var refObj = {
+                    refBookNo: obj.DocumentReference[i].ReferenceBookNo,
+                    refBookDate: obj.DocumentReference[i].ReferenceBookDate,
+                    refBookSubject: obj.DocumentReference[i].ReferenceBookSubject
+                }
+
+                this.refBooks.push(refObj)
+            }
+
         }
 
     }, created() {
 
     }, mounted() {
+        let $vm = this;
         axios
             .get('http://localhost:51618/api/RequestOrganizationList')
             .then(response => this.organizations = response.data)
-            .then(console.log(this.organizations))
+            .then(response => {
+
+            })
+
+
+
+        const params = new URLSearchParams(window.location.search);
+        const bid = params.get('bid');
+
+
+        axios.get('http://localhost:51618/api/Getdocument?' + 'id=' + bid)
+            .then(response => {
+                console.log(response)
+                if (response.data.Status) {
+                    this.setDocumentData(response.data.ResponseObject)
+
+                }
+                //console.log(response)
+            })
+            .then(response => {
+
+            })
+
+
+        // if (bid != null) {
+        //     $vm.mode = "edit";
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "http://localhost:51618/api/Getdocument",
+        //         data: { id: bid },
+        //         success: function (resultData) {
+        //             if (resultData.Status) {
+        //                 $vm.setDocumentData(resultData.ResponseObject)
+
+
+        //             }
+        //             else {
+
+        //             }
+        //         }
+        //     })
+
+        // }
+
+
 
 
     },
