@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" data-textdirection="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <!-- <meta name="description"
+        content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords"
+        content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT"> -->
+    <title>MIL-DOC</title>
+    <link rel="apple-touch-icon" href="/mil-doc/images/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/mil-doc/images/logo.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/vendors.css" />
+    <link rel="stylesheet" href="/mil-doc/css/app.css" />
+    <link rel="stylesheet" href="/mil-doc/css/core/menu/menu-types/vertical-menu.css" />
+    <link rel="stylesheet" type="text/css" href="/mil-doc/fonts/simple-line-icons/style.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-menu="vertical-menu"
+    data-col="2-columns">
+
+    <!-- fixed-top-->
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
+        <div class="navbar-wrapper">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mobile-menu d-md-none mr-auto">
+                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
+                            <i class="ft-menu font-large-1"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="">
+                            <img class="brand-logo" alt="MIL-DOC-Logo" src="/mil-doc/images/logo.png" width="25">
+                            <h2 class="brand-text">Mil-Doc</h2>
+                        </a>
+                    </li>
+                    <li class="nav-item d-md-none">
+                        <a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile">
+                            <i class="fa fa-ellipsis-v"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="navbar-container content mr-auto">
+                <div class="collapse navbar-collapse" id="navbar-mobile">
+                    <ul class="nav navbar-nav mr-auto float-left">
+                        <li class="nav-item d-none d-md-block">
+                            <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
+                                <i class="ft-menu"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-nav float-right">
+                        <li class="dropdown dropdown-user nav-item">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                <span class="avatar avatar-online">
+                                    <img src="../images/avatar.png" alt="avatar"><i></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <button class="dropdown-item" href="/mil-doc/pages/logout" onclick="Logout()"><i
+                                        class="ft-power"></i> ออกจากระบบ</button>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+        <div class="main-menu-content">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                <li class="nav-item ">
+                    <a href="/mil-doc/pages/main">
+                        <i class="ft-home"></i>
+                        <span class="menu-title" data-i18n="">หน้าแรก</span>
+                    </a>
+                </li>
+                <li class="nav-item "><a href="#"><i class="fa fa-upload"></i><span class="menu-title "
+                            data-i18n="">หนังสือส่ง</span></a>
+                    <ul class="menu-content">
+                        <li class=""><a class="menu-item" href="../document-out/index.html"><i
+                                    class="ft-chevrons-right"></i>สร้างหนังสือใหม่</a></li>
+                        <li class=""><a class="menu-item" href="../document-outs/index.html"><i
+                                    class="ft-chevrons-right"></i>สร้างหนังสือเวียน</a></li>
+                        <li class=""><a class="menu-item" href="../document-out-list/index.html"><i
+                                    class="ft-chevrons-right"></i>รายการหนังสือ</a></li>
+                    </ul>
+
+                </li>
+
+                <li class="nav-item "><a href="#"><i class="fa fa-download"></i><span class="menu-title "
+                            data-i18n="">หนังสือรับ</span></a>
+                    <ul class="menu-content">
+                        <li class="active"><a class="menu-item" href="../document-in-list/index.html"><i
+                                    class="ft-chevrons-right"></i>รายการรับหนังสือ</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <div class="app-content content" id="app" v-cloak>
+        <div class='content-wrapper'>
+            <div class='content-body'>
+                <!-- Content -->
+
+
+                <div class='row breadcrumbs-top pb-1'>
+                    <div class='breadcrumb-wrapper col-12'>
+                        <ol class='breadcrumb'>
+                            <li class='breadcrumb-item'>หนังสือส่ง
+                            </li>
+                            <li class='breadcrumb-item active'>สร้างเอกสารใหม่
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+
+                <section id='verify_section' class='card' style='margin-bottom: 0.5rem;'>
+
+                    <div class='card-content'>
+                        <div class='card-body'>
+                            <div class='card-text' class="form-inline">
+                                <div class='row'>
+
+                                    <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
+                                        <div class="row">
+                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
+                                                <h3 style="border-bottom:1px solid #BABFC7;">หนังสือ / Document</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                        <div class="row">
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>เลขที่หนังสือ</label>
+                                                <input type='text' v-model='bookNo' class='form-control'
+                                                    :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>ลงวันที่</label>
+                                                <input type='date' min="2001-01-01" class='form-control'
+                                                    v-model="bookDate" :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>เรื่อง</label>
+                                                <input type='text' name='DocOutNo' class='form-control'
+                                                    v-model="bookSubject" :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>รายละเอียด</label>
+                                                <textarea class='form-control' v-model="bookDescription"
+                                                    :disabled="disable"></textarea>
+                                            </div>
+
+                                            <hr>
+                                            <br>
+                                            <br>
+                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-5'>
+                                                <h3 style="border-bottom:1px solid #BABFC7;">ผู้ส่งหนังสือ / Sender</h3>
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>ตำแหน่ง</label>
+                                                <input type='text' class='form-control' v-model='senderPosition'
+                                                    :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>ชื่อ</label>
+                                                <input type='text' class='form-control' v-model='senderName'
+                                                    :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>นามสกุล</label>
+                                                <input type='text' class='form-control' v-model='senderSurname'
+                                                    :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>หน่วยงานผู้ส่ง</label>
+                                                <!-- <input type="text" class="form-control" value="SCP1" disabled> -->
+                                                <select class='form-control' id="ddlReceive" v-model='senderDeptId'
+                                                    :disabled="disable">
+                                                    <option v-for="organization in organizations"
+                                                        :value="organization.Id">
+                                                        {{ organization.Name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-5'>
+                                                <h3 style="border-bottom:1px solid #BABFC7;">ผู้รับหนังสือ / Receiver
+                                                </h3>
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>ตำแหน่ง</label>
+                                                <input type='text' class='form-control' v-model='receiverPosition'
+                                                    :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>ชื่อ</label>
+                                                <input type='text' class='form-control' v-model='receiverName'
+                                                    :disabled="disable">
+                                            </div>
+
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>นามสกุล</label>
+                                                <input type='text' class='form-control' v-model='receiverSurname'
+                                                    :disabled="disable">
+                                            </div>
+                                            <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                                <label>หน่วยงานผู้ส่ง</label>
+                                                <select class='form-control' id="ddlReceive" v-model='receiverDeptId'
+                                                    :disabled="disable">
+                                                    <option v-for="organization in organizations"
+                                                        :value="organization.Id">
+                                                        {{ organization.Name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
+                                                <label>สถานะ</label>
+                                                <input type='text' class='form-control' v-model='status' disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col-md-12 col-lg-6  col-sm-12 mt-1'>
+                                        <div class="row">
+                                            <div class='col-md-12 col-lg-12  col-sm-12 mt-1'>
+                                                <label>ประเภท</label>
+                                                <input type='text' v-model='bookType' value='' class='form-control'
+                                                    :disabled="disable">
+                                            </div>
+                                            <div class='col-md-12 col-lg-12 col-sm-12 mt-1'>
+                                                <label>ชั้นความเร็ว</label>
+                                                <select class='form-control' v-model="bookSpeed" :disabled="disable">
+                                                    <option value='001'>ปกติ</option>
+                                                    <option value='002'>ด่วน</option>
+                                                    <option value='003'>ด่วนมาก</option>
+                                                    <option value='004'>ด่วนที่สุด</option>
+                                                </select>
+                                            </div>
+                                            <div class='col-md-12 col-lg-12 col-sm-12 mt-1'>
+                                                <label>ชั้นความลับ</label>
+                                                <select class='form-control' v-model="bookSecret" :disabled="disable">
+                                                    <option value='001'>ปกติ</option>
+                                                    <option value='002'>ลับ</option>
+                                                    <option value='003'>ลับมาก</option>
+                                                    <option value='004'>ลับมากที่สุด</option>
+                                                </select>
+                                            </div>
+                                            <div class='col-md-12 col-lg-12 col-sm-12 mt-3'>
+                                                <label>หนังสืออ้างอิง/Reference Correspondence &nbsp;</label>
+                                                </button>
+
+                                                <div class="col-md-12" v-for="(item, index) in refBooks">
+                                                    <p>
+                                                        <p> <b>เลขที่หนังสือ</b>: {{  item.refBookNo }}
+                                                            <b>ลงวันที่</b>: {{  item.refBookDate }}
+                                                            <b>เรื่อง</b>: {{  item.refBookSubject }}
+                                                        </p>
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                            <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
+                                                <label style="margin-bottom: 25px;">เอกสารหลัก / Main Attachment
+                                                    &nbsp;</label>
+
+                                                <div class="col-md-12" v-for="(main, index) in mainAttachment">
+                                                    <p>
+                                                        <button class="btn btn-primary"
+                                                            v-on:click="openMainAttachment()">เปิด</button>
+                                                        {{ main.name === null ?  main.AttachmentName : main.name}}
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+                                            <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
+                                                <label style="margin-bottom: 25px;">เอกสารแนบ / Other Attachment
+                                                    &nbsp;</label>
+                                                <div class="col-md-12" v-for="(other, index) in otherAttachment">
+                                                    <p>
+                                                        <button class="btn btn-primary"
+                                                            v-on:click="openOtherAttachment(other.id)">เปิด</button>
+                                                        {{ other.name }}
+                                                    </p>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class='col-12 text-center pt-1'>
+                                        <button
+                                            v-if="status !== 'ส่งหนังสือตอบรับแล้ว' &&  status !== 'แจ้งเลขรับผิด' && disableButton === false"
+                                            type='button' class='btn btn-primary' v-on:click="sendNotifierDocument">
+                                            <i class='fa fa-send'></i>&nbsp;ส่งหนังสือตอบรับ
+                                        </button>
+                                        <button v-if="(status === 'ส่งหนังสือตอบรับแล้ว' || status === 'แจ้งเลขรับผิด')"
+                                            type='button' class='btn btn-primary' v-on:click="sendNumberDocument">
+                                            <i class='fa fa-send'></i>&nbsp;ส่งหนังสือแจ้งเลขรับ
+                                        </button>
+
+                                        <button v-if="status === 'ส่งหนังสือตอบรับแล้ว'  && disableButton === false "
+                                            type='button' class='btn btn-danger' v-on:click="sendWrongDocument">
+                                            <i class='fa fa-danger'></i>&nbsp;ปฏิเสธหนังสือ
+                                        </button>
+                                        <button v-if="status === 'ส่งหนังสือตอบรับแล้ว'  && disableButton === false "
+                                            type='button' class='btn btn-secondary' v-on:click="sendInvalidDocument">
+                                            <i class='fa fa-times'></i>&nbsp;แจ้งหนังสือผิด
+                                        </button>
+                                        <a href="../document-in-list/index.html" class='btn btn-primary'>
+                                            <i class='fa fa-arrow-left'></i>&nbsp;ย้อนกลับ
+                                        </a>
+
+                                    </div>
+
+
+                                    <!-- <div class='col-12 text-center pt-1' v-if="id === 0">
+                                        <button type='button' class='btn btn-primary' v-on:click="addDocument">
+                                            <i class='fa fa-save'></i>&nbsp;บันทึก
+                                        </button>
+
+                                    </div>
+                                    <div class='col-12 text-center pt-1' v-if="id !== 0">
+                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDocument"
+                                            :disabled="disable">
+                                            <i class='fa fa-save'></i>&nbsp;ส่งหนังสือ
+                                        </button>
+                                        <button type='button' class='btn btn-primary' v-on:click="addDocument"
+                                            :disabled="disable">
+                                            <i class='fa fa-save'></i>&nbsp;บันทึกแก้ไข
+                                        </button>
+                                        <button type='button' class='btn btn-primary' v-on:click="deleteDocument"
+                                            :disabled="disable">
+                                            <i class='fa fa-save'></i>&nbsp;ลบหนังสือ
+                                        </button>
+                                        <button type='button' class='btn btn-primary' v-on:click="cancelSaveDocument">
+                                            <i class='fa fa-save'></i>&nbsp;ย้อนกลับ
+                                        </button>
+                                    </div> -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+    <script src="/mil-doc/vendors/js/vendors.min.js"></script>
+    <script src="/mil-doc/js/core/app-menu.js"></script>
+    <script src="/mil-doc/js/core/app.js"></script>
+    <!-- <script src="/mil-doc/vendors/js/forms/validation/jquery.validate.min.js"></script> -->
+    <script src="../css/loading-overlay.css"></script>
+    <script src="../config.js"></script>
+    <script src="index.js"></script>
+    <script>
+
+    </script>
+
+
+</body>
+
+</html>
