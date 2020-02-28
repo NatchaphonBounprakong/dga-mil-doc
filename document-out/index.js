@@ -77,6 +77,7 @@ var app = new Vue({
         addOtherAttachment(event) {
             if (event.target.files[0] != null) {
                 this.otherAttachment.push(event.target.files[0])
+             
                 console.log(this.otherAttachment);
             }
 
@@ -202,6 +203,9 @@ var app = new Vue({
             }
             if (this.receiverDept == "") {
                 this.errors.push("ระบุหน่วยงานผู้รับ")
+            }
+            if (this.mainAttachment <= 0) {
+                this.errors.push("เพิ่มเอกสารหลัก")
             }
 
             if (this.errors.length == 0) {
@@ -372,6 +376,33 @@ var app = new Vue({
 
 
             }
+        },      
+        requestSendDocument() {
+            if (confirm("ต้องการส่งหนังสือไปยังผู้รับปลายทางใช่หรือไม่")) {
+                $.LoadingOverlay("show")
+                if (this.id != null) {
+                    $.ajax({
+                        type: 'POST',
+                        url: url + "/api/RequestSendDocument",
+                        data: {
+                            id: this.id
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            console.log(response)
+                            if (response.Status) {
+                                alert("ส่งหนังสือเรียบร้อย")
+                                window.location.href = "../document-out-list/index.html"
+                            }
+                            else {
+                                alert("เกิดความผิดผลาด")
+                            }
+                            $.LoadingOverlay("hide")
+                        }
+                    })
+                }
+            }
+
         },
         setDocumentData(obj) {
 
@@ -383,7 +414,7 @@ var app = new Vue({
             this.bookSubject = obj.Subject
             this.bookSpeed = obj.Speed
             this.bookSecret = obj.Secret
-            this.mainAttachment = [{ name: obj.MainAttachmentName }]
+            this.mainAttachment = [{ name: obj.MainAttachmentName,fileSize:obj.FileSize }]
 
             this.senderPosition = obj.SenderPosition
             this.senderName = obj.SenderName
@@ -410,7 +441,8 @@ var app = new Vue({
                 var file = {
                     name: att.AttachmentName,
                     id: att.Id,
-                    state: att.State
+                    state: att.State,
+                    fileSize:att.FileSize
                 }
                 this.otherAttachment.push(file)
             }
@@ -425,33 +457,6 @@ var app = new Vue({
                 }
 
                 this.refBooks.push(refObj)
-            }
-
-        },
-        requestSendDocument() {
-            if (confirm("ต้องการส่งหนังสือไปยังผู้รับปลายทางใช่หรือไม่")) {
-                $.LoadingOverlay("show")
-                if (this.id != null) {
-                    $.ajax({
-                        type: 'POST',
-                        url: url + "/api/RequestSendDocument",
-                        data: {
-                            id: this.id
-                        },
-                        dataType: 'json',
-                        success: function (response) {
-                            console.log(response)
-                            if (response.Status) {
-                                alert("ส่งหนังสือเรียบร้อย")
-                                window.location.href = "../document-out-list/index.html"
-                            }
-                            else {
-                                alert("เกิดความผิดผลาด")
-                            }
-                            $.LoadingOverlay("hide")
-                        }
-                    })
-                }
             }
 
         },

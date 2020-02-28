@@ -22,9 +22,24 @@ function Logout() {
 
 var url = config.apiUrl
 
+var navApp = new Vue({
+    el: '#nav-app',
+    data: {
+        url: url,
+    },
+    methods:{
+        goToOrganization(){
+            console.log(111)
+        }
+    }
+
+    
+})
+
 var app = new Vue({
     el: '#app',
     data: {
+        url: url,
         id: 0,
         bookNo: '',
         bookType: '',
@@ -53,7 +68,8 @@ var app = new Vue({
         status: '',
         disable: false,
         disableButton: false,
-        from: 'http://dev.scp1.ecms.dga.or.th/ecms-ws01/service2'
+        from: 'http://dev.scp1.ecms.dga.or.th/ecms-ws01/service2',
+        fileSize: ''
     },
     methods: {
 
@@ -68,19 +84,19 @@ var app = new Vue({
             this.bookSubject = obj.Subject
             this.bookSpeed = obj.Speed
             this.bookSecret = obj.Secret
-            this.mainAttachment = [{ name: obj.MainAttachmentName }]
+            this.mainAttachment = [{ name: obj.MainAttachmentName, size: obj.FileSize }]
             this.senderPosition = obj.SenderPosition
-           
+
             this.senderName = obj.SenderName
             this.senderSurname = obj.SenderSurname
             this.senderDept = obj.SenderDept
             this.senderDeptId = obj.SenderOrganizationId
-           
+
             this.receiverPosition = obj.ReceiverPosition
             this.receiverName = obj.ReceiverName
             this.receiverSurname = obj.ReceiverSurname
             this.receiverDeptId = obj.ReceiverOrganizationId
-           
+            //this.fileSize = obj.FileSize
             this.bookDescription = obj.Description
             this.status = obj.Status
             this.receiverDept = obj.Organization1.Code
@@ -100,7 +116,8 @@ var app = new Vue({
                 var file = {
                     name: att.AttachmentName,
                     id: att.Id,
-                    state: att.State
+                    state: att.State,
+                    fileSize: att.FileSize
                 }
                 this.otherAttachment.push(file)
             }
@@ -143,7 +160,7 @@ var app = new Vue({
                         }
                     );
                 }
-            } 
+            }
         },
 
         sendInvalidDocument() {
@@ -206,13 +223,13 @@ var app = new Vue({
             var txt;
             if (confirm("ต้องการส่งหนังสือตอบรับใช่หรือไหม")) {
                 $.LoadingOverlay("show");
-                $.post(url + '/api/RequestDeleteDocumentQueue',
+                $.post(url + '/api/RequestSendNotifierDocument',
                     {
                         "id": id,
                     },
                     function (response, status) {
                         if (response.Status) {
-                            $.post(url + '/api/RequestSendNotifierDocument',
+                            $.post(url + '/api/RequestDeleteDocumentQueue',
                                 {
                                     "id": id,
                                 },
@@ -311,10 +328,10 @@ var app = new Vue({
                 axios
                     .get(url + '/service/GetOrganizationList')
                     .then(response => this.organizations = response.data.ResponseObject)
-        
+
                 const params = new URLSearchParams(window.location.search);
                 const bid = params.get('bid');
-        
+
                 axios.get(url + '/service/Getdocumentin?' + 'id=' + bid)
                     .then(response => {
                         console.log(response)
@@ -325,18 +342,18 @@ var app = new Vue({
                             alert("ไม่สารมารถดึงข้อมูลหนังสือได้")
                         }
                         $.LoadingOverlay("hide");
-        
+
                     })
                     .then(response => {
                         $.LoadingOverlay("hide");
                     })
             }
         }
-        else{
+        else {
             window.location.href = "../log-in/index.html"
         }
 
-     
+
 
     },
 })

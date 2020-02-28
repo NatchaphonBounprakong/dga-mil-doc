@@ -215,16 +215,29 @@ var app = new Vue({
             if (this.receiverDept == "") {
                 this.errors.push("ระบุหน่วยงานผู้รับ")
             }
+            if (this.selectedOrganization.length <= 0) {
+                this.errors.push("ระบุหน่วยงานผู้รับ")
+            }
+            if (this.mainAttachment <= 0) {
+                this.errors.push("เพิ่มเอกสารหลัก")
+            }
 
             if (this.errors.length == 0) {
 
-                if (confirm("ต้องการบันทึกข้อมูลหนังสือใช่หรือไม่")) {
+                if (confirm("ต้องการส่งหนังสือเวียนใช่หรือไม่")) {
 
 
                     for (i = 0; i < this.selectedOrganization.length; i++) {
                         this.addDocument(this.selectedOrganization[i])
                     }
-                    //window.location.href = "../document-out-list/index.html"
+
+                    $.LoadingOverlay("show")
+                    setTimeout(function () {
+                        window.location.href = "../document-out-list/index.html"
+                        $.LoadingOverlay("hide")
+                    }, 10000);
+
+
 
                 }
             }
@@ -345,7 +358,7 @@ var app = new Vue({
                                             success: function (response) {
                                                 console.log(response)
                                                 if (response.Status) {
-                                           
+
                                                 }
                                                 else {
                                                     alert("การส่งหนังสือเกิดความผิดผลาด")

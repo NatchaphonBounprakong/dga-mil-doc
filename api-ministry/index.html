@@ -112,7 +112,7 @@
                 <li class="nav-item "><a href="#"><i class="fa fa-download"></i><span class="menu-title "
                             data-i18n="">หนังสือรับ</span></a>
                     <ul class="menu-content">
-                        <li class="active"><a class="menu-item" href="../document-in-list/index.html"><i
+                        <li class=""><a class="menu-item" href="../document-in-list/index.html"><i
                                     class="ft-chevrons-right"></i>รายการรับหนังสือ</a></li>
                     </ul>
                 </li>
@@ -122,7 +122,7 @@
                     <ul class="menu-content">
                         <li class=""><a class="menu-item" href="../api-organization/index.html"><i
                                     class="ft-chevrons-right"></i>API หน่วยงาน</a></li>
-                        <li class=""><a class="menu-item" href="../api-ministry/index.html"><i
+                        <li class="active"><a class="menu-item" href="../api-ministry/index.html"><i
                                     class="ft-chevrons-right"></i>API กระทรวง</a></li>
                         <li class=""><a class="menu-item" href="../api-speed/index.html"><i
                                     class="ft-chevrons-right"></i>API ชั้นความเร็ว</a></li>
@@ -132,6 +132,8 @@
                                     class="ft-chevrons-right"></i>API ประเภทไฟล์</a></li>
                     </ul>
                 </li>
+
+
 
             </ul>
         </div>
@@ -164,38 +166,9 @@
 
                             <div class="row">
                                 <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
-                                    <button class="btn btn-secondary" v-on:click="requestDocument"><i
-                                            class="ft-refresh-cw"></i>&nbsp&nbsp ดึงข้อมูลหนังสือจากระบบ
-                                        E-CMS</button>
+                                    <p id="json"></p>
                                 </div>
-                                <div class='col-md-12  col-lg-12  col-sm-12 mt-1'>
-                                    <table id="bookTable" class="display">
-                                        <thead>
-                                            <tr>
-                                                <th>จัดการ</th>
-                                                <th>เลขที่</th>
-                                                <th>วันที่</th>
-                                                <th>เรื่อง</th>
-                                                <th>ผู้รับ</th>
-                                                <th>สถานะ</th>
-                                                <th>เลขรับ</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for=" book in listBook">
-                                                <td><button class="btn btn-primary btn-block"
-                                                        v-on:click="manageBook(book.Id)">จัดการหนังสือ</button>
-                                                </td>
-                                                <td>{{book.BookId}}</td>
-                                                <td>{{book.Date}}</td>
-                                                <td>{{book.Subject}}</td>
-                                                <td>{{book.Receive}}</td>
-                                                <td>{{book.Status}}</td>
-                                                <td>{{book.AcceptId}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+
                             </div>
 
 

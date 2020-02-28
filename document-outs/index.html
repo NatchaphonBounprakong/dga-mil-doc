@@ -125,10 +125,27 @@
                 <li class="nav-item "><a href="#"><i class="fa fa-download"></i><span class="menu-title "
                             data-i18n="">หนังสือรับ</span></a>
                     <ul class="menu-content">
-                        <li class="active"><a class="menu-item" href="../document-in-list/index.html"><i
+                        <li class=""><a class="menu-item" href="../document-in-list/index.html"><i
                                     class="ft-chevrons-right"></i>รายการรับหนังสือ</a></li>
                     </ul>
                 </li>
+
+                <li class="nav-item "><a href="#"><i class="fa fa-download"></i><span class="menu-title "
+                    data-i18n="">Service</span></a>
+            <ul class="menu-content">
+                <li class=""><a class="menu-item" href="../api-organization/index.html"><i
+                            class="ft-chevrons-right"></i>API หน่วยงาน</a></li>
+                <li class=""><a class="menu-item" href="../api-ministry/index.html"><i
+                            class="ft-chevrons-right"></i>API กระทรวง</a></li>
+                <li class=""><a class="menu-item" href="../api-speed/index.html"><i
+                            class="ft-chevrons-right"></i>API ชั้นความเร็ว</a></li>
+                <li class=""><a class="menu-item" href="../api-secret/index.html"><i
+                            class="ft-chevrons-right"></i>API ชั้นความลับ</a></li>
+                <li class=""><a class="menu-item" href="../api-file/index.html"><i
+                            class="ft-chevrons-right"></i>API ประเภทไฟล์</a></li>
+            </ul>
+        </li>
+
 
             </ul>
         </div>
@@ -376,31 +393,10 @@
 
                                     <div class='col-12 text-center pt-1' v-if="id === 0">
                                         <button type='button' class='btn btn-primary' v-on:click="addDocumentLoop">
-                                            <i class='fa fa-save'></i>&nbsp;บันทึก
-                                        </button>
-
-                                    </div>
-                                    <div class='col-12 text-center pt-1' v-if="id !== 0 ">
-                                        <button type='button' class='btn btn-primary' v-on:click="requestSendDocument"
-                                            :disabled="disable">
-                                            <i class='fa fa-send'></i>&nbsp;ส่งหนังสือ
-                                        </button>
-                                        <button type='button' class='btn btn-primary' v-on:click="addDocument"
-                                            :disabled="disable">
-                                            <i class='fa fa-save'></i>&nbsp;บันทึกแก้ไข
-                                        </button>
-                                        <button type='button' class='btn btn-danger' v-on:click="deleteDocument"
-                                            :disabled="disable">
-                                            <i class='fa fa-trash'></i>&nbsp;ลบหนังสือ
-                                        </button>
-                                        <button v-if="status === 'ปลายทางส่งเลขรับเพื่ออ้างอิง'" type='button'
-                                            class='btn btn-secondary' v-on:click="sendWrongNumberDocument">
-                                            <i class='fa fa-times'></i>&nbsp;ส่งหนังสือแจ้งเลขรับผิด
-                                        </button>
-                                        <button type='button' class='btn btn-primary' v-on:click="cancelSaveDocument">
-                                            <i class='fa fa-arrow-left'></i>&nbsp;ย้อนกลับ
+                                            <i class='fa fa-save'></i>&nbsp;ส่งหนังสือเวียน
                                         </button>
                                     </div>
+                                   
                                 </div>
                             </div>
 
