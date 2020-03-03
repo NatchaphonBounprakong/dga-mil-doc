@@ -31,8 +31,8 @@ var app = new Vue({
         bookType: '',
         bookDate: formatDate(n),
         bookSubject: '',
-        bookSpeed: 001,
-        bookSecret: 001,
+        bookSpeed: '001',
+        bookSecret: '001',
         bookDescription: '',
         refBookNo: '',
         refBookDate: '',
@@ -231,8 +231,10 @@ var app = new Vue({
                         this.addDocument(this.selectedOrganization[i])
                         //var org = this.selectedOrganization[i];
                     }
+                    $.LoadingOverlay("show")
                     setTimeout(function () {
                         window.location.href = "../document-out-list/index.html"
+                        $.LoadingOverlay("hide")
                     }, 5000 * this.selectedOrganization.length);
                 }
             }
@@ -327,14 +329,12 @@ var app = new Vue({
                     doc: doc,
                     from: senderInfomation.Code,
                     To: org.Id
-
                 },
                 dataType: 'json',
                 success: function (response) {
 
                     if (response.Status) {
                         formData.append("ID", response.ResponseObject.Id)
-
                         $.ajax({
                             type: 'POST',
                             url: id === 0 ? url + "/service/AddDocumentAttachmentThenSend" : url + "/service/EditDocumentAttachment",
@@ -343,6 +343,136 @@ var app = new Vue({
                             processData: false,
                             success: function (resultData) {
                                 if (resultData.Status) {
+                                    if (resultData.id != null && resultData.id > 0) {
+
+                                    }
+                                }
+                                else {
+                                    alert("อัพโหลดไฟล์ไม่ผ่าน กรุณาอัพโหลดไฟล์ใหม่")
+                                }
+                            }
+                        })
+                    }
+                    else {
+
+                        alert("บันทึกข้อมูลไม่สำเร็จ" + response.Description)
+                    }
+                    $.LoadingOverlay("hide");
+
+                },
+                error: function (xhr, textStatus, error) {
+                    alert("บันทึกข้อมูลไม่สำเร็จ")
+                    $.LoadingOverlay("hide");
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                }
+            });
+        },
+
+        addDocument(org) {
+            $.LoadingOverlay("show");
+            let formData = new FormData();
+
+            for (i = 0; i < this.mainAttachment.length; i++) {
+                formData.append("mainFile" + i, this.mainAttachment[i]);
+            }
+
+            for (i = 0; i < this.otherAttachment.length; i++) {
+                if (this.id > 0) {
+                    formData.append(this.otherAttachment[i].name, this.otherAttachment[i]);
+                }
+                else {
+                    formData.append("otherFile" + i, this.otherAttachment[i]);
+                }
+
+            }
+
+
+            var senderIndex = document.getElementById("ddlSender").selectedIndex;
+            var senderInfomation = this.organizations[senderIndex]
+
+            var doc = {
+                Id: this.id,
+                No: this.bookNo,
+                From: this.from,
+                Type: this.bookType,
+                Date: this.bookDate,
+                Subject: this.bookSubject,
+                Speed: this.bookSpeed,
+                Secret: this.bookSecret,
+                Description: this.bookDescription,
+                MainAttachmentName: this.mainAttachment.length > 0 ? this.mainAttachment[0].name : null,
+
+                SenderPosition: this.senderPosition,
+                SenderName: this.senderName,
+                SenderSurname: this.senderSurname,
+                SenderDept: senderInfomation.Name,
+                SenderOrganizationId: senderInfomation.Id,
+
+                ReceiverPosition: this.receiverPosition,
+                ReceiverName: this.receiverName,
+                ReceiverSurname: this.receiverSurname,
+                ReceiverDept: org.Name,
+                ReceiverOrganizationId: org.Id,
+
+                Status: "บันทึกรอส่ง",
+
+                DocumentAttachment: [],
+                DocumentReference: [],
+                Type: 1
+            }
+
+            for (var i = 0; i < this.otherAttachment.length; i++) {
+                var attachmentObj = {
+                    AttachmentName: this.otherAttachment[i].name
+                }
+                doc.DocumentAttachment.push(attachmentObj)
+            }
+
+            for (var i = 0; i < this.refBooks.length; i++) {
+
+                var refObj = {
+                    Id: this.refBooks[i].id,
+                    State: this.refBooks[i].state,
+                    ReferenceBookNo: this.refBooks[i].refBookNo,
+                    ReferenceBookDate: this.refBooks[i].refBookDate,
+                    ReferenceBookSubject: this.refBooks[i].refBookSubject,
+                }
+
+                if (this.refBooks[i].id === 0 || !this.refBooks[i].id) {
+                    refObj.State = "เพิ่ม"
+                }
+
+                doc.DocumentReference.push(refObj)
+            }
+
+            var id = this.id
+
+            $.ajax({
+                type: 'POST',
+                url: id === 0 ? url + "/service/AddDocument" : url + "/service/EditDocument",
+                data: {
+                    doc: doc,
+                    from: senderInfomation.Code,
+                    To: org.Id
+                },
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+
+                    if (response.Status) {
+                        formData.append("ID", response.ResponseObject.Id)
+                        $.ajax({
+                            type: 'POST',
+                            url: id === 0 ? url + "/service/AddDocumentAttachmentThenSend" : url + "/service/EditDocumentAttachment",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            async: false,
+                            success: function (resultData) {
+                                if (resultData.Status) {
+                                    console.log(resultData)
                                     if (resultData.id != null && resultData.id > 0) {
 
                                     }

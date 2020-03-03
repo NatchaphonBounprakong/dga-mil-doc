@@ -31,8 +31,8 @@ var app = new Vue({
         bookType: '',
         bookDate: formatDate(n),
         bookSubject: '',
-        bookSpeed: 001,
-        bookSecret: 001,
+        bookSpeed: '001',
+        bookSecret: '001',
         bookDescription: '',
         refBookNo: '',
         refBookDate: '',
@@ -211,7 +211,7 @@ var app = new Vue({
                 this.errors.push("เพิ่มเอกสารหลัก")
             }
 
-        
+
             var receiverIndex = document.getElementById("ddlReceive").selectedIndex;
             if (receiverIndex == -1) {
                 this.errors.push("เลือกหน่วยงานผู้รับ")
@@ -238,7 +238,7 @@ var app = new Vue({
 
                     }
 
-                   
+
                     var receiverInfomation = this.organizations[receiverIndex]
 
                     var senderIndex = document.getElementById("ddlSender").selectedIndex;
