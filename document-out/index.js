@@ -77,7 +77,7 @@ var app = new Vue({
         addOtherAttachment(event) {
             if (event.target.files[0] != null) {
                 this.otherAttachment.push(event.target.files[0])
-             
+
                 console.log(this.otherAttachment);
             }
 
@@ -207,6 +207,15 @@ var app = new Vue({
             if (this.mainAttachment <= 0) {
                 this.errors.push("เพิ่มเอกสารหลัก")
             }
+            if (this.mainAttachment <= 0) {
+                this.errors.push("เพิ่มเอกสารหลัก")
+            }
+
+        
+            var receiverIndex = document.getElementById("ddlReceive").selectedIndex;
+            if (receiverIndex == -1) {
+                this.errors.push("เลือกหน่วยงานผู้รับ")
+            }
 
             if (this.errors.length == 0) {
 
@@ -229,7 +238,7 @@ var app = new Vue({
 
                     }
 
-                    var receiverIndex = document.getElementById("ddlReceive").selectedIndex;
+                   
                     var receiverInfomation = this.organizations[receiverIndex]
 
                     var senderIndex = document.getElementById("ddlSender").selectedIndex;
@@ -376,7 +385,7 @@ var app = new Vue({
 
 
             }
-        },      
+        },
         requestSendDocument() {
             if (confirm("ต้องการส่งหนังสือไปยังผู้รับปลายทางใช่หรือไม่")) {
                 $.LoadingOverlay("show")
@@ -414,7 +423,7 @@ var app = new Vue({
             this.bookSubject = obj.Subject
             this.bookSpeed = obj.Speed
             this.bookSecret = obj.Secret
-            this.mainAttachment = [{ name: obj.MainAttachmentName,fileSize:obj.FileSize }]
+            this.mainAttachment = [{ name: obj.MainAttachmentName, fileSize: obj.FileSize }]
 
             this.senderPosition = obj.SenderPosition
             this.senderName = obj.SenderName
@@ -442,7 +451,7 @@ var app = new Vue({
                     name: att.AttachmentName,
                     id: att.Id,
                     state: att.State,
-                    fileSize:att.FileSize
+                    fileSize: att.FileSize
                 }
                 this.otherAttachment.push(file)
             }
@@ -480,7 +489,13 @@ var app = new Vue({
                 $.LoadingOverlay("show");
                 axios
                     .get(url + '/service/GetOrganizationList')
-                    .then(response => { $.LoadingOverlay("hide"); this.organizations = response.data.ResponseObject })
+                    .then(response => {
+                        $.LoadingOverlay("hide");
+                        this.organizations = response.data.ResponseObject
+                    }).catch(error => {
+                        alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                        $.LoadingOverlay("hide");
+                    });
 
 
                 const params = new URLSearchParams(window.location.search);
@@ -502,13 +517,17 @@ var app = new Vue({
                         .then(response => {
                             $.LoadingOverlay("hide");
                         })
+                        .catch(error => {
+                            alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                            $.LoadingOverlay("hide");
+                        });;
                 }
                 else {
                     $.LoadingOverlay("hide");
                 }
             }
         }
-        else{
+        else {
             window.location.href = "../log-in/index.html"
         }
 

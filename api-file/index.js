@@ -72,14 +72,27 @@ var app = new Vue({
                 axios
                     .get(url + '/api/RequestfileList?organizationId='+ this.organization.Id)
                     .then(response => {
-                        document.getElementById("json").innerHTML =  JSON.stringify(response.data);
+                        //document.getElementById("json").innerHTML =  JSON.stringify(response.data);
+                      
+                        var oTblReport = $("#tb")
+                        oTblReport.DataTable ({
+                            "data" : response.data,
+                            "columns" : [
+                                { "data" : "FileExtension" },
+                                { "data" : "ContentType" },                                
+                            ]
+                        });
+                       
                         $.LoadingOverlay("hide");
                     })
-                    .then
-                    (response => {
+                    .then(response => {
                         var table = $('#bookTable').dataTable()
                         $.LoadingOverlay("hide");
-                    });
+                    })
+                    .catch(error => {
+                        alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                        $.LoadingOverlay("hide");
+                    });;
 
             }
         }

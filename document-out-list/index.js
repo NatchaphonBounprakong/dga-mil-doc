@@ -72,6 +72,10 @@ var app = new Vue({
                     (response => {
                         var table = $('#bookTable').dataTable()
                         $.LoadingOverlay("hide");
+                    })
+                    .catch(error => {
+                        alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                        $.LoadingOverlay("hide");
                     });
             }
         }

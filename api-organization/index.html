@@ -11,18 +11,20 @@
         content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT"> -->
     <title>MIL-DOC</title>
-    <link rel="apple-touch-icon" href="/mil-doc/images/logo.png">
+    <link rel="apple-touch-icon" href="../images/logo.png">
     <link rel="shortcut icon" type="image/x-icon" href="/mil-doc/images/logo.ico">
 
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/vendors.css" />
-    <link rel="stylesheet" href="/mil-doc/css/app.css" />
-    <link rel="stylesheet" href="/mil-doc/css/core/menu/menu-types/vertical-menu.css" />
-    <link rel="stylesheet" type="text/css" href="/mil-doc/fonts/simple-line-icons/style.min.css">
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/core/menu/menu-types/vertical-menu.css" />
+    <link rel="stylesheet" type="text/css" href="../fonts/simple-line-icons/style.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
 
 
     <style>
@@ -46,7 +48,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="navbar-brand" href="">
-                            <img class="brand-logo" alt="MIL-DOC-Logo" src="/mil-doc/images/logo.png" width="25">
+                            <img class="brand-logo" alt="MIL-DOC-Logo" src="../images/logo.png" width="25">
                             <h2 class="brand-text">Mil-Doc</h2>
                         </a>
                     </li>
@@ -130,6 +132,8 @@
                                     class="ft-chevrons-right"></i>API ชั้นความลับ</a></li>
                         <li class=""><a class="menu-item" href="../api-file/index.html"><i
                                     class="ft-chevrons-right"></i>API ประเภทไฟล์</a></li>
+                        <li class=""><a class="menu-item" href="../api-time-check/index.html"><i
+                                    class="ft-chevrons-right"></i>API ตรวจสอบเวลา</a></li>
                     </ul>
                 </li>
 
@@ -170,7 +174,20 @@
                                 </div>
 
                             </div>
-
+                            <div class="row">
+                                <table id="tb" class="display" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>รหัส</th>
+                                            <th>Url</th>
+                                            <th>ชื่อภาษาไทย</th>
+                                            <th>ชื่อภาษาอังกฤษ</th>
+                                           
+                                         
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
 
                         </div>
                     </div>
@@ -184,10 +201,10 @@
     <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-    <script src="/mil-doc/vendors/js/vendors.min.js"></script>
-    <script src="/mil-doc/js/core/app-menu.js"></script>
-    <script src="/mil-doc/js/core/app.js"></script>
-    <script src="/mil-doc/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="../vendors/js/vendors.min.js"></script>
+    <script src="../js/core/app-menu.js"></script>
+    <script src="../js/core/app.js"></script>
+    <script src="../vendors/js/forms/validation/jquery.validate.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="../css/loading-overlay.css"></script>
     <script src="../config.js"></script>

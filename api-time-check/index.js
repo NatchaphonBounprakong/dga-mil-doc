@@ -27,7 +27,7 @@ var url = config.apiUrl
 var app = new Vue({
     el: '#app',
     data: {
-        listBook: [],      
+        listBook: [],
         organization: ''
     },
     methods: {
@@ -70,29 +70,24 @@ var app = new Vue({
 
                 $.LoadingOverlay("show");
                 axios
-                    .get(url + '/service/GetDocumentInListByOrganizeId?organizationId='+ this.organization.Id)
+                    .get(url + '/api/RequestTimeCheck?organizationId=' + this.organization.Id)
                     .then(response => {
-                        if (response.data.Status) {
-                            this.listBook = response.data.ResponseObject
-                        }
-                        else {
-                            alert("เรียกข้อมูลไม่ได้")
-                        }
+                        document.getElementById("json").innerHTML = JSON.stringify(response.data);
+                       
                         $.LoadingOverlay("hide");
                     })
                     .then
                     (response => {
                         var table = $('#bookTable').dataTable()
                         $.LoadingOverlay("hide");
-                    })
-                    .catch(error => {
+                    }).catch(error => {
                         alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
                         $.LoadingOverlay("hide");
-                    });
+                    });;;
 
             }
         }
-        else{
+        else {
             window.location.href = "../log-in/index.html"
         }
 

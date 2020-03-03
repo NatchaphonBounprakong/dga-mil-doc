@@ -229,22 +229,18 @@ var app = new Vue({
 
                     for (i = 0; i < this.selectedOrganization.length; i++) {
                         this.addDocument(this.selectedOrganization[i])
+                        //var org = this.selectedOrganization[i];
                     }
-
-                    $.LoadingOverlay("show")
                     setTimeout(function () {
                         window.location.href = "../document-out-list/index.html"
-                        $.LoadingOverlay("hide")
-                    }, 10000);
-
-
-
+                    }, 5000 * this.selectedOrganization.length);
                 }
             }
             else {
                 window.scrollTo(0, 0);
             }
         },
+
         addDocument(org) {
             $.LoadingOverlay("show");
             let formData = new FormData();
@@ -348,24 +344,7 @@ var app = new Vue({
                             success: function (resultData) {
                                 if (resultData.Status) {
                                     if (resultData.id != null && resultData.id > 0) {
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: url + "/api/RequestSendDocument",
-                                            data: {
-                                                id: resultData.id
-                                            },
-                                            dataType: 'json',
-                                            success: function (response) {
-                                                console.log(response)
-                                                if (response.Status) {
 
-                                                }
-                                                else {
-                                                    alert("การส่งหนังสือเกิดความผิดผลาด")
-                                                }
-                                                $.LoadingOverlay("hide")
-                                            }
-                                        })
                                     }
                                 }
                                 else {
@@ -390,6 +369,7 @@ var app = new Vue({
                 }
             });
         },
+
         sendWrongNumberDocument() {
             var id = this.id;
 
@@ -525,6 +505,10 @@ var app = new Vue({
                         this.organizations = response.data.ResponseObject
                         this.organizationFiltered = this.organizations
                     })
+                    .catch(error => {
+                        alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                        $.LoadingOverlay("hide");
+                    });
 
 
                 const params = new URLSearchParams(window.location.search);
@@ -546,6 +530,10 @@ var app = new Vue({
                         .then(response => {
                             $.LoadingOverlay("hide");
                         })
+                        .catch(error => {
+                            alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                            $.LoadingOverlay("hide");
+                        });
                 }
                 else {
                     $.LoadingOverlay("hide");

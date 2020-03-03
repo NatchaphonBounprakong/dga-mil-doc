@@ -27,13 +27,13 @@ var navApp = new Vue({
     data: {
         url: url,
     },
-    methods:{
-        goToOrganization(){
+    methods: {
+        goToOrganization() {
             console.log(111)
         }
     }
 
-    
+
 })
 
 var app = new Vue({
@@ -105,7 +105,7 @@ var app = new Vue({
 
 
 
-            if (obj.Status === "ส่งหนังสือแจ้งเลขรับแล้ว" || obj.Status === "ปฏิเสธการรับหนังสือ" || obj.Status === "ส่งหนังสือแจ้งเลขรับแล้ว" || obj.Status === "แจ้งหนังสือผิด") {
+            if (obj.Status === "ส่งเลขรับเพื่ออ้างอิง" || obj.Status === "ปฏิเสธการรับหนังสือ" || obj.Status === "ส่งเลขรับเพื่ออ้างอิง" || obj.Status === "แจ้งหนังสือผิด") {
                 this.disableButton = true
             }
 
@@ -347,6 +347,10 @@ var app = new Vue({
                     .then(response => {
                         $.LoadingOverlay("hide");
                     })
+                    .catch(error => {
+                        alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                        $.LoadingOverlay("hide");
+                    });;
             }
         }
         else {

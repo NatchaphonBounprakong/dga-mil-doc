@@ -27,7 +27,7 @@ var url = config.apiUrl
 var app = new Vue({
     el: '#app',
     data: {
-        listBook: [],      
+        listBook: [],
         organization: ''
     },
     methods: {
@@ -70,20 +70,33 @@ var app = new Vue({
 
                 $.LoadingOverlay("show");
                 axios
-                    .get(url + '/api/RequestministryList?organizationId='+ this.organization.Id)
+                    .get(url + '/api/RequestministryList?organizationId=' + this.organization.Id)
                     .then(response => {
-                        document.getElementById("json").innerHTML =  JSON.stringify(response.data);
+                        //document.getElementById("json").innerHTML = JSON.stringify(response.data);
                         $.LoadingOverlay("hide");
+                        var oTblReport = $("#tb")
+                        oTblReport.DataTable ({
+                            "data" : response.data,
+                            "columns" : [
+                                { "data" : "Id" },
+                                { "data" : "ThName" },     
+                                                           
+                            ]
+                        });
                     })
                     .then
                     (response => {
                         var table = $('#bookTable').dataTable()
                         $.LoadingOverlay("hide");
-                    });
+                    }).catch(error => {
+                        alert("ไม่สามารถเชื่อมต่อกับ Service ได้")
+                        $.LoadingOverlay("hide");
+                    });;
+                ;
 
             }
         }
-        else{
+        else {
             window.location.href = "../log-in/index.html"
         }
 
