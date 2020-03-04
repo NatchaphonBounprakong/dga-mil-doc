@@ -235,7 +235,7 @@ var app = new Vue({
                     }
 
                     this.addDocument(this.selectedOrganization[0])
-
+                    // $.LoadingOverlay("hide")
 
                 }
             }
@@ -321,20 +321,28 @@ var app = new Vue({
                 doc.DocumentReference.push(refObj)
             }
 
-            var id = this.id         
-            var docJson = JSON.stringify(doc)        
+            var id = this.id
+            var docJson = JSON.stringify(doc)
             formData.append('doc', docJson);
             formData.append('Ids', JSON.stringify(this.selectedOrganizationId));
             $.ajax({
                 type: 'POST',
                 url: id === 0 ? url + "/service/AddCircleDocument2" : url + "/service/EditDocument",
-                data: formData,               
+                data: formData,
                 contentType: false,
                 processData: false,
                 success: function (response) {
+                    
+                    var currentdate = new Date();
+                    var datetime = currentdate.getFullYear() + "/"
+                        + (currentdate.getMonth() + 1) + "/"
+                        + currentdate.getDate() + " "
+                        + currentdate.getHours() + ":"
+                        + currentdate.getMinutes() + ":"
+                        + currentdate.getSeconds();
 
-          
-                    $.LoadingOverlay("hide");
+                    alert("ส่งหนังสือเวียนสำเร็จ " + datetime)
+                    window.location.href = "../document-out-list/index.html"
 
                 },
                 error: function (xhr, textStatus, error) {

@@ -339,7 +339,7 @@ var app = new Vue({
                             }
                             else {
 
-                                alert("บันทึกข้อมูลไม่สำเร็จ" + response.Description)
+                                alert("บันทึกข้อมูลไม่สำเร็จ " + response.Description)
                             }
                             $.LoadingOverlay("hide");
 
@@ -374,7 +374,7 @@ var app = new Vue({
                             window.location.reload();
                         }
                         else {
-                            alert("เกิดข้อผิดพลาด");
+                            alert("เกิดข้อผิดพลาด " + response.Description);
                             window.location.reload();
                         }
                         $.LoadingOverlay("hide");
@@ -404,7 +404,7 @@ var app = new Vue({
                                 window.location.href = "../document-out-list/index.html"
                             }
                             else {
-                                alert("เกิดความผิดผลาด")
+                                alert("เกิดความผิดพลาด " + response.Description)
                             }
                             $.LoadingOverlay("hide")
                         }

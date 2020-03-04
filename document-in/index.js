@@ -153,7 +153,7 @@ var app = new Vue({
                                 window.location.reload();
                             }
                             else {
-                                alert("เกิดข้อผิดพลาด");
+                                alert("เกิดข้อผิดพลาด " + response.Description);
                                 window.location.reload();
                             }
                             $.LoadingOverlay("hide");
@@ -162,7 +162,6 @@ var app = new Vue({
                 }
             }
         },
-
         sendInvalidDocument() {
             var id = this.id;
 
@@ -179,7 +178,7 @@ var app = new Vue({
                             window.location.reload();
                         }
                         else {
-                            alert("เกิดข้อผิดพลาด");
+                            alert("เกิดข้อผิดพลาด " + response.Description);
                             window.location.reload();
                         }
                         $.LoadingOverlay("hide");
@@ -206,7 +205,7 @@ var app = new Vue({
                             window.location.reload();
                         }
                         else {
-                            alert("เกิดข้อผิดพลาด");
+                            alert("เกิดข้อผิดพลาด " + response.Description);
                             window.location.reload();
                         }
                         $.LoadingOverlay("hide");
@@ -239,7 +238,7 @@ var app = new Vue({
                                         window.location.reload();
                                     }
                                     else {
-                                        alert("เกิดข้อผิดพลาด");
+                                        alert("เกิดข้อผิดพลาด " + response.Description);
                                         window.location.reload();
                                     }
                                     $.LoadingOverlay("hide");
