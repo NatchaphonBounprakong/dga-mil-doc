@@ -243,7 +243,6 @@ var app = new Vue({
                 window.scrollTo(0, 0);
             }
         },
-
         addDocument(org) {
             $.LoadingOverlay("show");
             let formData = new FormData();
@@ -354,9 +353,6 @@ var app = new Vue({
                 }
             });
         },
-
-
-
         sendWrongNumberDocument() {
             var id = this.id;
 

@@ -39,11 +39,12 @@ var app = new Vue({
                         config.user = response.ResponseObject.Username
                         window.location.href = "../document-out-list/index.html"
                     }
+                    else{
+                        alert("เกิดข้อผิดพลาด "+response.Description)
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    alert(textStatus + " ตรวจสอบชื่อผู้ใช้งาน รหัสผ่าน และลองอีกครั้ง");
-                    //window.location.reload();
-
+                    alert(textStatus + " ตรวจสอบชื่อผู้ใช้งาน รหัสผ่าน และลองอีกครั้ง");                   
                 }
             })
         }
